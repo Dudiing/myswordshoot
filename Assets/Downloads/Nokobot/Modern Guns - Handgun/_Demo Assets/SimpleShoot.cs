@@ -31,7 +31,7 @@ public class SimpleShoot : MonoBehaviour
         if (gunAnimator == null)
             gunAnimator = GetComponentInChildren<Animator>();
 
-        triggerAction = new InputAction(binding: "<XRController>/triggerButton");
+        triggerAction = new InputAction(binding: "<XRController>/triggerPressed");
         triggerAction.performed += context => Shoot();
         triggerAction.Enable();
     }
