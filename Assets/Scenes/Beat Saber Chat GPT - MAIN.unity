@@ -12770,7 +12770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a58acdc5aaeb040add8f140ae01170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redBlockPrefab: {fileID: 4143370102675613070, guid: 11aca0ac2e761a641a58a9b5f6429c30,
+  redBlockPrefab: {fileID: 2097564954258163399, guid: cdd780b29bf7f6948b216af03d19f3e7,
     type: 3}
   blueBlockPrefab: {fileID: 4143370102675613070, guid: db4cfe195d911304ea0c844938c6a279,
     type: 3}
