@@ -14,7 +14,7 @@ public class BlockController : MonoBehaviour
         new Vector3(0, 0, -45),   // Up-Right
         new Vector3(0, 0, 130),    // Down-Left
         new Vector3(0, 0, -130),     // Down-Right
-        new Vector3(0, 90, 0)      // Any
+        new Vector3(0, 90, 90)      // Any
     };
 
     private Vector3 moveDirection = Vector3.back;
