@@ -10,10 +10,11 @@ public class BlockController : MonoBehaviour
         new Vector3(0, 0, 180),    // Down
         new Vector3(0, 0, 90),     // Left
         new Vector3(0, 0, -90),    // Right
-        new Vector3(0, 0, -45),    // Up-Left
-        new Vector3(0, 0, -135),   // Up-Right
-        new Vector3(0, 0, 135),    // Down-Left
-        new Vector3(0, 0, 45)      // Down-Right
+        new Vector3(0, 0, 45),    // Up-Left
+        new Vector3(0, 0, -45),   // Up-Right
+        new Vector3(0, 0, 130),    // Down-Left
+        new Vector3(0, 0, -130),     // Down-Right
+        new Vector3(0, 90, 90)      // Any
     };
 
     private Vector3 moveDirection = Vector3.back;
@@ -32,11 +33,11 @@ public class BlockController : MonoBehaviour
         {
             transform.eulerAngles = cutDirectionRotations[cutDirection];
         }
-        else
+        /*else
         {
             // Hide the arrow for "Any" direction (cutDirection == 8)
             cutDirectionArrow.SetActive(false);
-        }
+        }*/
     }
 
     private void Update()
