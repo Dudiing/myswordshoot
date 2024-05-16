@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit;
 
 [AddComponentMenu("Nokobot/Modern Guns/Simple Shoot")]
 public class SimpleShoot : MonoBehaviour
@@ -24,6 +25,11 @@ public class SimpleShoot : MonoBehaviour
 
     private InputAction triggerAction;
 
+    [Header("Haptics")]
+    [Tooltip("Duration of the haptic feedback")] [SerializeField] private float hapticDuration = 0.1f;
+    [Tooltip("Intensity of the haptic feedback")] [SerializeField] private float hapticIntensity = 0.75f;
+    private XRBaseController rightController;
+
     void Start()
     {
         if (barrelLocation == null)
@@ -35,9 +41,10 @@ public class SimpleShoot : MonoBehaviour
         triggerAction = new InputAction(binding: "<XRController>/triggerPressed");
         triggerAction.performed += context => Shoot();
         triggerAction.Enable();
+
+        rightController = GetRightController();
     }
 
-    // This function creates the bullet behavior
     void Shoot()
     {
         if (muzzleFlashPrefab)
@@ -64,9 +71,11 @@ public class SimpleShoot : MonoBehaviour
 
         // Attach a collision detection script to the bullet
         bullet.AddComponent<BulletCollisionDetector>();
+
+        // Trigger haptic feedback
+        TriggerHapticFeedback();
     }
 
-    // This function creates a casing at the ejection slot
     void CasingRelease()
     {
         // Cancel function if ejection slot hasn't been set or there's no casing
@@ -83,6 +92,30 @@ public class SimpleShoot : MonoBehaviour
 
         // Destroy casing after X seconds
         Destroy(tempCasing, destroyTimer);
+    }
+
+    private void TriggerHapticFeedback()
+    {
+        if (rightController != null)
+        {
+            rightController.SendHapticImpulse(hapticIntensity, hapticDuration);
+        }
+    }
+
+    private XRBaseController GetRightController()
+    {
+        // Assumes XRController is part of the XR Interaction Toolkit setup
+        XRBaseController rightController = null;
+        var controllers = FindObjectsOfType<XRBaseController>();
+        foreach (var controller in controllers)
+        {
+            if (controller.gameObject.name.Contains("Right"))
+            {
+                rightController = controller;
+                break;
+            }
+        }
+        return rightController;
     }
 
     private void OnDisable()

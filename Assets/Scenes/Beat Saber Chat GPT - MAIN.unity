@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.004830868, g: 0.0053407056, b: 0.0066691553, a: 1}
+  m_IndirectSpecularColor: {r: 0.0048308712, g: 0.0053407107, b: 0.00666916, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12923,7 +12923,7 @@ Transform:
   m_GameObject: {fileID: 1440591986}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 1, z: 10}
+  m_LocalPosition: {x: -1, y: 1, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12948,8 +12948,8 @@ MonoBehaviour:
   bombBlockPrefab: {fileID: 4143370102675613070, guid: 7f0bdbeb27df82748805d242f3a40188,
     type: 3}
   spawnPoint: {fileID: 1440591987}
-  horizontalSpacing: 0.7
-  verticalSpacing: 0.6
+  horizontalSpacing: 0.75
+  verticalSpacing: 0.7
   beatMapFilePath: EasyStandard2.dat
   bpm: 150
   noteJumpMovementSpeed: 16
