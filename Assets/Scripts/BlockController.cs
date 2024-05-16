@@ -46,7 +46,7 @@ public class BlockController : MonoBehaviour
 
         if(transform.position.magnitude > 50)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

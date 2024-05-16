@@ -2,6 +2,7 @@ using EzySlice;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Saber : MonoBehaviour
 {
@@ -20,12 +21,10 @@ public class Saber : MonoBehaviour
     private Vector3 perpendicularVector;
     private Vector3 up;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == sliceTag)
-            Slice(collision.collider,transform.position, perpendicularVector);
-    }
-
+    [Header("Haptics")]
+    [Tooltip("Duration of the haptic feedback")] [SerializeField] private float hapticDuration = 0.1f;
+    [Tooltip("Intensity of the haptic feedback")] [SerializeField] private float hapticIntensity = 0.75f;
+    private XRBaseController leftController;
 
     void Start()
     {
@@ -33,6 +32,8 @@ public class Saber : MonoBehaviour
         {
             previousPosition = targetTransform.position;
         }
+
+        leftController = GetLeftController();
     }
 
     void Update()
@@ -50,7 +51,13 @@ public class Saber : MonoBehaviour
         }
     }
 
-    public void Slice(Collider collider,Vector3 position, Vector3 direction)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == sliceTag)
+            Slice(collision.collider, transform.position, perpendicularVector);
+    }
+
+    public void Slice(Collider collider, Vector3 position, Vector3 direction)
     {
         Debug.Log("SLICING " + collider.gameObject.name);
 
@@ -76,9 +83,7 @@ public class Saber : MonoBehaviour
                     frontObject.transform.rotation = collider.transform.rotation;
                     frontObject.transform.localScale = collider.transform.localScale;
                     Rigidbody frb = frontObject.AddComponent<Rigidbody>();
-                    //frb.AddExplosionForce(cutForce, frontObject.transform.position, 1);
-                    frb.velocity = (3*direction+2*speed.normalized+up) *cutSpeedMultiplier;
-
+                    frb.velocity = (3 * direction + 2 * speed.normalized + up) * cutSpeedMultiplier;
 
                     // Create back mesh GameObject
                     GameObject backObject = hull.CreateLowerHull(collider.gameObject, crossSectionMaterial);
@@ -87,8 +92,7 @@ public class Saber : MonoBehaviour
                     backObject.transform.rotation = collider.transform.rotation;
                     backObject.transform.localScale = collider.transform.localScale;
                     Rigidbody brb = backObject.AddComponent<Rigidbody>();
-                    //brb.AddExplosionForce(cutForce, backObject.transform.position, 1);
-                    brb.velocity = (-3*direction + 2*speed.normalized+up) * cutSpeedMultiplier;
+                    brb.velocity = (-3 * direction + 2 * speed.normalized + up) * cutSpeedMultiplier;
 
                     // Disable the original GameObject and make it stop moving
                     collider.gameObject.GetComponentInParent<BlockController>().enabled = false;
@@ -100,10 +104,33 @@ public class Saber : MonoBehaviour
                     slashParticles.transform.rotation = Quaternion.LookRotation(directionXZ, perpendicularVector);
                     slashParticles.Play();
 
-
+                    // Trigger haptic feedback
+                    TriggerHapticFeedback();
                 }
             }
         }
     }
-}
 
+    private void TriggerHapticFeedback()
+    {
+        if (leftController != null)
+        {
+            leftController.SendHapticImpulse(hapticIntensity, hapticDuration);
+        }
+    }
+
+    private XRBaseController GetLeftController()
+    {
+        XRBaseController leftController = null;
+        var controllers = FindObjectsOfType<XRBaseController>();
+        foreach (var controller in controllers)
+        {
+            if (controller.gameObject.name.Contains("Left"))
+            {
+                leftController = controller;
+                break;
+            }
+        }
+        return leftController;
+    }
+}
