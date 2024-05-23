@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0048308712, g: 0.0053407107, b: 0.00666916, a: 1}
+  m_IndirectSpecularColor: {r: 0.004830868, g: 0.0053407056, b: 0.0066691553, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5547081818757574bb6619b363fc6084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0
+  delay: 1
 --- !u!1 &119062009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1120,8 @@ MonoBehaviour:
   slashParticles: {fileID: 605351181}
   crossSectionMaterial: {fileID: 2100000, guid: 3929bf69f04fe534990ec309de272405,
     type: 2}
+  hapticDuration: 0.1
+  hapticIntensity: 0.75
 --- !u!4 &589986966
 Transform:
   m_ObjectHideFlags: 0
@@ -12611,6 +12613,8 @@ MonoBehaviour:
   slashParticles: {fileID: 4517149517202305340}
   crossSectionMaterial: {fileID: 2100000, guid: f1d917b0e10ee054292ef5c3f7e89eef,
     type: 2}
+  hapticDuration: 0.1
+  hapticIntensity: 0.75
 --- !u!54 &1155076375
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12950,7 +12954,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 1440591987}
   horizontalSpacing: 0.75
   verticalSpacing: 0.7
-  beatMapFilePath: EasyStandard2.dat
+  beatMapFilePath: EasyStandard3.dat
   bpm: 150
   noteJumpMovementSpeed: 16
   noteJumpStartBeatOffset: 0
