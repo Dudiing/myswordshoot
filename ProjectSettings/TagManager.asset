@@ -7,6 +7,12 @@ TagManager:
   - Sliceable
   - DianaTag
   - TestIsma
+  - Diana_Black
+  - Diana_Blue
+  - Diana_White
+  - Diana_Yellow
+  - Diana_Red
+  - CubeStartGame
   layers:
   - Default
   - TransparentFX

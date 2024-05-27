@@ -30,6 +30,12 @@ public class SimpleShoot : MonoBehaviour
     [Tooltip("Intensity of the haptic feedback")] [SerializeField] private float hapticIntensity = 0.75f;
     private XRBaseController rightController;
 
+    [Header("Recoil Settings")]
+    [Tooltip("Recoil angle")] [SerializeField] private float recoilAngle = 10f;
+    [Tooltip("Recoil duration")] [SerializeField] private float recoilDuration = 0.1f;
+
+    private Quaternion originalRotation;
+
     void Start()
     {
         if (barrelLocation == null)
@@ -43,6 +49,9 @@ public class SimpleShoot : MonoBehaviour
         triggerAction.Enable();
 
         rightController = GetRightController();
+
+        // Save the original rotation
+        originalRotation = transform.localRotation;
     }
 
     void Shoot()
@@ -74,6 +83,9 @@ public class SimpleShoot : MonoBehaviour
 
         // Trigger haptic feedback
         TriggerHapticFeedback();
+
+        // Trigger recoil effect
+        StartCoroutine(RecoilEffect());
     }
 
     void CasingRelease()
@@ -122,5 +134,30 @@ public class SimpleShoot : MonoBehaviour
     {
         // Disable trigger button action when the script is disabled
         triggerAction?.Disable();
+    }
+
+    private IEnumerator RecoilEffect()
+    {
+        float elapsedTime = 0f;
+        Quaternion recoilRotation = Quaternion.Euler(originalRotation.eulerAngles + new Vector3(-recoilAngle, 0, 0));
+
+        // Rotate up
+        while (elapsedTime < recoilDuration)
+        {
+            transform.localRotation = Quaternion.Slerp(originalRotation, recoilRotation, elapsedTime / recoilDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Rotate down
+        elapsedTime = 0f;
+        while (elapsedTime < recoilDuration)
+        {
+            transform.localRotation = Quaternion.Slerp(recoilRotation, originalRotation, elapsedTime / recoilDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localRotation = originalRotation;
     }
 }
