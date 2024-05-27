@@ -55,4 +55,7 @@ public class BlockController : MonoBehaviour
     private void Awake() {
         Destroy(gameObject, 5);
     }
+    private void OnDestroy() {
+        Destroy(gameObject);
+    }
 }

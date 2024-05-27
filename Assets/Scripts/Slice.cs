@@ -15,21 +15,22 @@ public class SliceObject : MonoBehaviour
 
     void Start()
     {
-        hasSliced = false;
+        if (VelocityEstimator == null)
+        {
+            Debug.LogError("VelocityEstimator component is missing.");
+            enabled = false; // Disable this script if VelocityEstimator is not set
+        }
     }
-
-    public bool hasSliced { get; private set; }
 
     void FixedUpdate()
     {
-        if (!hasSliced)
+        if (VelocityEstimator != null)
         {
             bool hasHit = Physics.Linecast(startSlicePoint.position, endSlicePoint.position, out RaycastHit hit, sliceableLayer);
             if (hasHit)
             {
                 GameObject target = hit.transform.gameObject;
                 Slice(target);
-                hasSliced = true;
             }
         }
     }
@@ -64,7 +65,6 @@ public class SliceObject : MonoBehaviour
         Destroy(lowerHull);
     }
 
-
     public void SetupSlicedComponent(GameObject slicedObject, Vector3 originalPosition)
     {
         Rigidbody rb = slicedObject.AddComponent<Rigidbody>();
@@ -74,5 +74,4 @@ public class SliceObject : MonoBehaviour
 
         slicedObject.transform.position = originalPosition;
     }
-
 }

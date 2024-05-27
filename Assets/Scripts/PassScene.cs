@@ -4,49 +4,43 @@ using Firebase.Database;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-
 public class PassScene : MonoBehaviour
 {
     [SerializeField] private GameObject cube;
     [SerializeField] private TMP_InputField inputField;
-    [SerializeField] private int sceneNumber;
+    [SerializeField] private GameObject sword;
+    [SerializeField] private int sceneNumber; // Número de la escena a cargar
 
-    private bool cubeDestroyed = false;
+    private bool cubeDestroyed = false; // Variable para controlar si el cubo ha sido destruido
 
     void Update()
     {
         // Verificar si se ha ingresado un nombre de 5 letras
         if (inputField.text.Length == 5)
         {
-            cube.SetActive(true);
-            CrearNuevoJugador(inputField.text);
-
-            // Cambiar a la escena especificada
-            SceneManager.LoadScene(sceneNumber);
+            cube.SetActive(true); // Activar el cubo si hay 5 letras ingresadas
         }
         else
         {
-            cube.SetActive(false);
+            cube.SetActive(false); // Desactivar el cubo si no hay 5 letras ingresadas
         }
-
-        // Verificar si el cubo ha sido destruido
-        //if (cube == null)
-        //{
-            // Crear un nuevo jugador en la base de datos
-            //CrearNuevoJugador(inputField.text);
-
-            // Cambiar a la escena especificada
-            //SceneManager.LoadScene(sceneNumber);
-        //}
     }
 
-    // Método que se llama cuando el cubo es destruido
-    public void CubeDestroyed()
+    // Método para destruir el cubo y cargar la siguiente escena
+    public void DestroyCube2()
     {
-        cubeDestroyed = true;
+        // Destruir el cubo después de un retraso de 3 segundos
+        LoadScene();
     }
 
-    // Método para crear un nuevo jugador en la base de datos
+    // Método para cargar la siguiente escena
+    private void LoadScene()
+    {
+        CrearNuevoJugador(inputField.text);
+        SceneManager.LoadScene(sceneNumber);
+    }
+
+     // Método para crear un nuevo jugador en la base de datos
     private void CrearNuevoJugador(string playerName)
     {
         // Obtener la referencia a la base de datos
