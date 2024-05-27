@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutDirectionArrow: {fileID: 2097564954258163399}
-  moveSpeed: 10
+  moveSpeed: 12
 --- !u!1001 &585042671853721511
 PrefabInstance:
   m_ObjectHideFlags: 0

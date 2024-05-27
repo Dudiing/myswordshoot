@@ -24,6 +24,9 @@ public class BlockController : MonoBehaviour
     {
         GetComponentInChildren<Light>().enabled = false;
     }
+    private void OnDestroy() {
+        Destroy(gameObject);
+    }
 
     public void Initialize(BeatSaberBlockSpawner.BeatSaberBlockData blockData)
     {
@@ -46,7 +49,7 @@ public class BlockController : MonoBehaviour
 
         if(transform.position.magnitude > 50)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
     private void Awake() {
