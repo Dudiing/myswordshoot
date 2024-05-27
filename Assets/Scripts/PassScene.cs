@@ -1,11 +1,8 @@
 using UnityEngine;
 using TMPro;
-using Firebase;
 using Firebase.Database;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using UnityEditor.SearchService;
 
 
 public class PassScene : MonoBehaviour

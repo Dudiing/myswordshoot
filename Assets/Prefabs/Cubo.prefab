@@ -271,4 +271,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutDirectionArrow: {fileID: 780323468}
-  moveSpeed: 10
+  moveSpeed: 12
