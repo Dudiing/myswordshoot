@@ -85,7 +85,7 @@ public class BeatSaberBlockSpawner : MonoBehaviour
 
     private void SpawnBlock(BeatSaberBlockData blockData)
     {
-        Debug.Log("SPAWN " + blockData._time + "-" + blockData._cutDirection);
+        //Debug.Log("SPAWN " + blockData._time + "-" + blockData._cutDirection);
 
         GameObject blockPrefab = null;
 

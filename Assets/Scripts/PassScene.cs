@@ -8,10 +8,7 @@ public class PassScene : MonoBehaviour
 {
     [SerializeField] private GameObject cube;
     [SerializeField] private TMP_InputField inputField;
-    [SerializeField] private GameObject sword;
     [SerializeField] private int sceneNumber; // Número de la escena a cargar
-
-    private bool cubeDestroyed = false; // Variable para controlar si el cubo ha sido destruido
 
     void Update()
     {
@@ -37,10 +34,11 @@ public class PassScene : MonoBehaviour
     private void LoadScene()
     {
         CrearNuevoJugador(inputField.text);
+        PlayerInfo.PlayerName = inputField.text; // Store player name in static class
         SceneManager.LoadScene(sceneNumber);
     }
 
-     // Método para crear un nuevo jugador en la base de datos
+    // Método para crear un nuevo jugador en la base de datos
     private void CrearNuevoJugador(string playerName)
     {
         // Obtener la referencia a la base de datos
