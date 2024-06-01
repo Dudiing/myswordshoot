@@ -65,7 +65,7 @@ namespace Keyboard
         [SerializeField] private int minCharacters = 3;
 
         private ColorBlock shiftButtonColors;
-        private bool isFirstKeyPress = true;
+        //private bool isFirstKeyPress = true;
         private bool keyHasBeenPressed;
         private bool shiftActive;
         private bool capsLockActive;

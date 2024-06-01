@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6291989069644143154}
   - component: {fileID: 8165564615350608013}
   - component: {fileID: 7667026902598471980}
+  - component: {fileID: 8875660982546845808}
   m_Layer: 0
   m_Name: Pistol_45ACP_Bullet
   m_TagString: Untagged
@@ -83,6 +84,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8875660982546845808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023207857688684297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f080bd718c33f84f9985033c84c44f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7799836738284049863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206,7 +219,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.04
-  m_Height: 0.04
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.025
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.9}

@@ -6,56 +6,98 @@ using System;
 
 public class DisplayPlayerData : MonoBehaviour
 {
-    [SerializeField] private TMP_Text playerDataText;
+    [SerializeField] private TMP_Text playerNameText;
+    [SerializeField] private TMP_Text playerScoreText;
+    [SerializeField] private TMP_Text playerHighScoreText;
 
     private DatabaseReference reference;
 
+    void Awake()
+    {
+        // Initialize the Firebase database reference
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+
     void Start()
     {
-        // Obtener la referencia a la base de datos
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        // Reassign TMP_Text references if not already assigned
+        if (playerNameText == null)
+        {
+            playerNameText = GameObject.Find("PlayerNameText").GetComponent<TMP_Text>();
+        }
+        if (playerScoreText == null)
+        {
+            playerScoreText = GameObject.Find("PlayerScoreText").GetComponent<TMP_Text>();
+        }
+        if (playerHighScoreText == null)
+        {
+            playerHighScoreText = GameObject.Find("PlayerHighScoreText").GetComponent<TMP_Text>();
+        }
 
-        // Obtener los datos del jugador actual
+        // Get the current player's data
         ObtenerDatosJugador();
     }
 
-    // Método para obtener los datos del jugador desde la base de datos
+    // Method to get the player's data from the database
     private void ObtenerDatosJugador()
     {
-        // Hacer la consulta a la base de datos para obtener los datos del jugador actual
-        reference.Child("Players").GetValueAsync().ContinueWith(task =>
+        // Check if player name is set
+        if (string.IsNullOrEmpty(PlayerInfo.PlayerName))
+        {
+            Debug.LogError("Player name is not set.");
+            return;
+        }
+
+        // Query the database to get the current player's data
+        reference.Child("Players").OrderByChild("Name").EqualTo(PlayerInfo.PlayerName).GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
-                Debug.LogError("Error al obtener los datos del jugador: " + task.Exception);
+                Debug.LogError("Error getting player data: " + task.Exception);
                 return;
             }
 
-            // Obtener los datos del jugador del resultado de la consulta
+            // Get the player data from the query result
             DataSnapshot snapshot = task.Result;
-            foreach (DataSnapshot jugadorSnapshot in snapshot.Children)
+            if (snapshot.Exists)
             {
-                // Obtener el nombre del jugador
-                string playerName = jugadorSnapshot.Child("Name").Value.ToString();
-
-                // Si el nombre del jugador coincide con el jugador actual (puedes usar otro identificador si lo deseas)
-                if (playerName == "NombreDelJugadorActual")
+                foreach (DataSnapshot playerSnapshot in snapshot.Children)
                 {
-                    // Obtener el puntaje y puntaje máximo del jugador
-                    int score = Convert.ToInt32(jugadorSnapshot.Child("Score").Value);
-                    int highScore = Convert.ToInt32(jugadorSnapshot.Child("HighScore").Value);
+                    // Get the player's score
+                    int score = Convert.ToInt32(playerSnapshot.Child("Score").Value);
 
-                    // Actualizar el texto en el canvas con los valores obtenidos
-                    ActualizarTexto(score, highScore);
+                    // Get the player's high score
+                    int highScore = Convert.ToInt32(playerSnapshot.Child("HighScore").Value);
+
+                    // Update the text on the canvas with the obtained values
+                    Debug.Log("First ActualizarTexto with playerName: " + PlayerInfo.PlayerName);
+                    UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        ActualizarTexto(PlayerInfo.PlayerName, score, highScore);
+                    });
                     break;
                 }
             }
         });
     }
 
-    // Método para actualizar el texto en el canvas con los valores obtenidos de la base de datos
-    private void ActualizarTexto(int score, int highScore)
+    public void ActualizarTexto(string playerName, int score, int highScore)
     {
-        playerDataText.text = "Score: " + score.ToString() + "\nYour HighScore: " + highScore.ToString();
+        Debug.Log("Text updated with playerName: " + playerName);
+        // Update the text on the canvas with the obtained values
+        if (playerNameText != null && playerScoreText != null && playerHighScoreText != null)
+        {
+            playerNameText.text = "Player: " + playerName;
+            playerScoreText.text = "Score: " + score.ToString();
+            playerHighScoreText.text = "HighScore: " + highScore.ToString();
+
+            Debug.Log("Updated Player: " + playerName);
+            Debug.Log("Updated Score: " + score.ToString());
+            Debug.Log("Updated HighScore: " + highScore.ToString());
+        }
+        else
+        {
+            Debug.LogError("One or more TMP_Text references are not set.");
+        }
     }
 }
