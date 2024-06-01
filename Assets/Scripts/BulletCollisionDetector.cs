@@ -1,6 +1,3 @@
-// Importante: Asegúrate de tener una referencia al componente DisplayPlayerData en tu escena.
-// Puedes hacerlo agregando este script a un GameObject en la escena y asignándolo en el editor.
-
 using UnityEngine;
 using Firebase;
 using Firebase.Database;
@@ -9,11 +6,15 @@ using System;
 public class BulletCollisionDetector : MonoBehaviour
 {
     private DatabaseReference reference;
+    private DisplayPlayerData displayPlayerData;
 
     void Start()
     {
         // Initialize the Firebase database reference
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+
+        // Obtain the DisplayPlayerData component
+        displayPlayerData = FindObjectOfType<DisplayPlayerData>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -48,6 +49,13 @@ public class BulletCollisionDetector : MonoBehaviour
         {
             Debug.Log("Collision with Diana_Yellow");
             scoreIncrement = 20;
+        }
+        else if (collision.gameObject.CompareTag("Sliceable"))
+        {
+            Debug.Log("Collision con Cubo");
+            UpdatePlayerScore(-5);
+            Destroy(collision.transform.parent.gameObject);
+            Destroy(gameObject);
         }
 
         // If scoreIncrement is greater than 0, update the player's score in Firebase
@@ -89,8 +97,9 @@ public class BulletCollisionDetector : MonoBehaviour
                     // Get the player's key
                     string playerKey = playerSnapshot.Key;
 
-                    // Get the current score
+                    // Get the current score and high score
                     int currentScore = Convert.ToInt32(playerSnapshot.Child("Score").Value);
+                    int currentHighScore = Convert.ToInt32(playerSnapshot.Child("HighScore").Value);
 
                     // Update the score
                     reference.Child("Players").Child(playerKey).Child("Score").SetValueAsync(currentScore + scoreIncrement).ContinueWith(updateTask =>
@@ -102,8 +111,22 @@ public class BulletCollisionDetector : MonoBehaviour
                         else
                         {
                             Debug.Log("Score updated successfully");
-                            // Llama al método ActualizarTexto en DisplayPlayerData
-                            FindObjectOfType<DisplayPlayerData>().ActualizarTexto(PlayerInfo.PlayerName, currentScore + scoreIncrement);
+
+                            // Update the PlayerInfo Score
+                            PlayerInfo.Score = currentScore + scoreIncrement;
+
+                            // Check and update high score if needed
+                            if (PlayerInfo.Score > currentHighScore)
+                            {
+                                PlayerInfo.HighScore = PlayerInfo.Score;
+                                reference.Child("Players").Child(playerKey).Child("HighScore").SetValueAsync(PlayerInfo.HighScore);
+                            }
+
+                            // Call the ActualizarTexto method on DisplayPlayerData with the new score and high score values
+                            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                            {
+                                displayPlayerData.ActualizarTexto(PlayerInfo.PlayerName, PlayerInfo.Score, PlayerInfo.HighScore);
+                            });
                         }
                     });
 

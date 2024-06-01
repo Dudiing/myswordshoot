@@ -6,14 +6,33 @@ using System;
 
 public class DisplayPlayerData : MonoBehaviour
 {
-    [SerializeField] private TMP_Text playerDataText;
+    [SerializeField] private TMP_Text playerNameText;
+    [SerializeField] private TMP_Text playerScoreText;
+    [SerializeField] private TMP_Text playerHighScoreText;
 
     private DatabaseReference reference;
 
-    void Start()
+    void Awake()
     {
         // Initialize the Firebase database reference
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+
+    void Start()
+    {
+        // Reassign TMP_Text references if not already assigned
+        if (playerNameText == null)
+        {
+            playerNameText = GameObject.Find("PlayerNameText").GetComponent<TMP_Text>();
+        }
+        if (playerScoreText == null)
+        {
+            playerScoreText = GameObject.Find("PlayerScoreText").GetComponent<TMP_Text>();
+        }
+        if (playerHighScoreText == null)
+        {
+            playerHighScoreText = GameObject.Find("PlayerHighScoreText").GetComponent<TMP_Text>();
+        }
 
         // Get the current player's data
         ObtenerDatosJugador();
@@ -51,17 +70,34 @@ public class DisplayPlayerData : MonoBehaviour
                     int highScore = Convert.ToInt32(playerSnapshot.Child("HighScore").Value);
 
                     // Update the text on the canvas with the obtained values
-                    ActualizarTexto(PlayerInfo.PlayerName, score, highScore);
+                    Debug.Log("First ActualizarTexto with playerName: " + PlayerInfo.PlayerName);
+                    UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        ActualizarTexto(PlayerInfo.PlayerName, score, highScore);
+                    });
                     break;
                 }
             }
         });
     }
 
-    public void ActualizarTexto(string playerName, int score, int highScore = 0)
+    public void ActualizarTexto(string playerName, int score, int highScore)
     {
-        Debug.Log("Text updated");
+        Debug.Log("Text updated with playerName: " + playerName);
         // Update the text on the canvas with the obtained values
-        playerDataText.text = playerName + "\nScore: " + score.ToString() + "\nYour HighScore: " + highScore.ToString();
+        if (playerNameText != null && playerScoreText != null && playerHighScoreText != null)
+        {
+            playerNameText.text = "Player: " + playerName;
+            playerScoreText.text = "Score: " + score.ToString();
+            playerHighScoreText.text = "HighScore: " + highScore.ToString();
+
+            Debug.Log("Updated Player: " + playerName);
+            Debug.Log("Updated Score: " + score.ToString());
+            Debug.Log("Updated HighScore: " + highScore.ToString());
+        }
+        else
+        {
+            Debug.LogError("One or more TMP_Text references are not set.");
+        }
     }
 }
