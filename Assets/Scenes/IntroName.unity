@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.286924, g: 0.12781379, b: 0.33297354, a: 1}
+  m_IndirectSpecularColor: {r: 0.28692386, g: 0.12781382, b: 0.3329738, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1296,7 +1296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cube: {fileID: 267802200}
   inputField: {fileID: 1557895886}
-  sword: {fileID: 223878997}
   sceneNumber: 1
 --- !u!1 &539811639
 GameObject:
@@ -3123,6 +3122,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1412533508}
     m_Modifications:
+    - target: {fileID: 1619505362, guid: 7e7f2840eb6a6294fb9d04582dbf8079, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 6804990658058999119, guid: 65c9f6563c561ee4e8905d1e6a32548b,
+        type: 3}
     - target: {fileID: 8565972283275330997, guid: 7e7f2840eb6a6294fb9d04582dbf8079,
         type: 3}
       propertyPath: m_RootOrder

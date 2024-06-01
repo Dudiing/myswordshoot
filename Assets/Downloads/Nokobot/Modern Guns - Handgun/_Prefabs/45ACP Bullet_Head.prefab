@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6291989069644143154}
   - component: {fileID: 8165564615350608013}
   - component: {fileID: 7667026902598471980}
-  - component: {fileID: 8875660982546845808}
   m_Layer: 0
   m_Name: Pistol_45ACP_Bullet
   m_TagString: Untagged
@@ -84,18 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8875660982546845808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023207857688684297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f080bd718c33f84f9985033c84c44f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7799836738284049863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187,6 +174,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7872600357144180458}
+    - targetCorrespondingSourceObject: {fileID: 3625037896966406280, guid: 9e0ef2cf9cfc11c46bbe7f28b272f6fb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8860969014360373853}
   m_SourcePrefab: {fileID: 100100000, guid: 9e0ef2cf9cfc11c46bbe7f28b272f6fb, type: 3}
 --- !u!4 &1895300901454820957 stripped
 Transform:
@@ -220,6 +211,22 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.025
-  m_Height: 2
+  m_Height: 0.225
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: -0.9}
+  m_Center: {x: 0, y: 0, z: -0.07}
+--- !u!114 &8860969014360373853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6804990658058999119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f080bd718c33f84f9985033c84c44f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AddscorePopupPrefab: {fileID: 1067227711837918775, guid: 53bf8b3d261972b43be8ef4be9bd9388,
+    type: 3}
+  RemovescorePopupPrefab: {fileID: 1067227711837918775, guid: ac0297c98a1b8234e88ce6c23e611377,
+    type: 3}
