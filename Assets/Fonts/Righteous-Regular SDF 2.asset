@@ -101,7 +101,7 @@ Material:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
     - _FaceColor: {r: 1, g: 0.50772303, b: 0.25098038, a: 1}
-    - _GlowColor: {r: 2.198975, g: 1.0729194, b: 17.0773, a: 0.5}
+    - _GlowColor: {r: 41.94516, g: 5.7377825, b: 31.7195, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
@@ -167,11 +167,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Righteous-Regular SDF
+  m_Name: Righteous-Regular SDF 2
   m_EditorClassIdentifier: 
-  hashCode: 469218858
+  hashCode: -121772872
   material: {fileID: -8441541315862048328}
-  materialHashCode: -564538934
+  materialHashCode: 1336336280
   m_Version: 1.1.0
   m_SourceFontFileGUID: 882385afac850814fae0cbb6b98a2b97
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 882385afac850814fae0cbb6b98a2b97,

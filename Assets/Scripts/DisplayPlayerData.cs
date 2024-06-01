@@ -87,9 +87,9 @@ public class DisplayPlayerData : MonoBehaviour
         // Update the text on the canvas with the obtained values
         if (playerNameText != null && playerScoreText != null && playerHighScoreText != null)
         {
-            playerNameText.text = "Player: " + playerName;
-            playerScoreText.text = "Score: " + score.ToString();
-            playerHighScoreText.text = "HighScore: " + highScore.ToString();
+            playerNameText.text = playerName;
+            playerScoreText.text = score.ToString();
+            playerHighScoreText.text = highScore.ToString();
 
             Debug.Log("Updated Player: " + playerName);
             Debug.Log("Updated Score: " + score.ToString());

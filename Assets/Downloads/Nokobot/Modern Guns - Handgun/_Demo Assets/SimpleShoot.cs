@@ -79,7 +79,7 @@ public class SimpleShoot : MonoBehaviour
         Destroy(bullet, bulletLifetime);
 
         // Attach a collision detection script to the bullet
-        bullet.AddComponent<BulletCollisionDetector>();
+        //bullet.AddComponent<BulletCollisionDetector>();
 
         // Trigger haptic feedback
         TriggerHapticFeedback();

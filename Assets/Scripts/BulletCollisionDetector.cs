@@ -2,11 +2,16 @@ using UnityEngine;
 using Firebase;
 using Firebase.Database;
 using System;
+using TMPro; // Añadir esta línea
 
 public class BulletCollisionDetector : MonoBehaviour
 {
     private DatabaseReference reference;
     private DisplayPlayerData displayPlayerData;
+
+    public GameObject AddscorePopupPrefab; // Prefab del Canvas con el texto "+5"
+    public GameObject RemovescorePopupPrefab;
+    private bool collisionHandled = false; // Añadir esta línea
 
     void Start()
     {
@@ -15,10 +20,19 @@ public class BulletCollisionDetector : MonoBehaviour
 
         // Obtain the DisplayPlayerData component
         displayPlayerData = FindObjectOfType<DisplayPlayerData>();
+
+        // Verificar que el prefab esté asignado
+        if (AddscorePopupPrefab == null)
+        {
+            Debug.LogError("Score Popup Prefab is not assigned!");
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collisionHandled) return; 
+        collisionHandled = true;
+
         Debug.Log("CollisionEntered test");
 
         // Initialize score increment variable
@@ -52,15 +66,29 @@ public class BulletCollisionDetector : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Sliceable"))
         {
-            Debug.Log("Collision con Cubo");
+            Debug.Log("Collision with Cube");
             UpdatePlayerScore(-5);
             Destroy(collision.transform.parent.gameObject);
-            Destroy(gameObject);
+            GameObject popup = Instantiate(RemovescorePopupPrefab, collision.transform.position, Quaternion.identity);
+            // Asignar la cámara al Canvas del popup
+            Canvas popupCanvas = popup.GetComponent<Canvas>();
+            if (popupCanvas != null)
+            {
+                popupCanvas.worldCamera = Camera.main;
+            }
+
+            TMP_Text popupText = popup.GetComponentInChildren<TMP_Text>();
+            popupText.text = "-5";
+            Destroy(popup, 1.0f); // Destruir el popup después de 1 segundo
         }
 
         // If scoreIncrement is greater than 0, update the player's score in Firebase
         if (scoreIncrement > 0)
         {
+
+            // Mostrar texto "+5"
+            ShowScorePopup(collision.transform.position, scoreIncrement);
+
             UpdatePlayerScore(scoreIncrement);
             // Destroy the parent of the collided object
             Destroy(collision.transform.parent.gameObject);
@@ -68,6 +96,28 @@ public class BulletCollisionDetector : MonoBehaviour
 
         // Destroy the bullet
         Destroy(gameObject);
+    }
+
+    private void ShowScorePopup(Vector3 position, int scoreIncrement)
+    {
+        if (AddscorePopupPrefab == null)
+        {
+            Debug.LogError("Score Popup Prefab is not assigned!");
+            return;
+        }
+
+        GameObject popup = Instantiate(AddscorePopupPrefab, position, Quaternion.identity);
+
+        // Asignar la cámara al Canvas del popup
+        Canvas popupCanvas = popup.GetComponent<Canvas>();
+        if (popupCanvas != null)
+        {
+            popupCanvas.worldCamera = Camera.main;
+        }
+
+        TMP_Text popupText = popup.GetComponentInChildren<TMP_Text>();
+        popupText.text = "+" + scoreIncrement.ToString();
+        Destroy(popup, 1.0f); // Destruir el popup después de 1 segundo
     }
 
     private void UpdatePlayerScore(int scoreIncrement)
