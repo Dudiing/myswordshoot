@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0048308712, g: 0.0053407107, b: 0.00666916, a: 1}
+  m_IndirectSpecularColor: {r: 0.004830868, g: 0.0053407056, b: 0.0066691553, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14005,6 +14005,7 @@ GameObject:
   - component: {fileID: 1440591987}
   - component: {fileID: 1440591988}
   - component: {fileID: 1440591989}
+  - component: {fileID: 1440591990}
   m_Layer: 0
   m_Name: CUBE SPAWNER
   m_TagString: Untagged
@@ -14070,6 +14071,21 @@ MonoBehaviour:
   regenRate: 3
   gameOverString: {fileID: 36845278}
   pauseMenuScript: {fileID: 9014170784696472217}
+--- !u!114 &1440591990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440591986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2c658b1d0109d4384a2ab014e64e62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  music: {fileID: 65361718}
+  pauseMenuScript: {fileID: 9014170784696472217}
+  delay: 1
 --- !u!1 &1441520729
 GameObject:
   m_ObjectHideFlags: 0
