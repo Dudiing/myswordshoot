@@ -12,6 +12,8 @@ public class HealthBar : MonoBehaviour
     public TextMeshProUGUI gameOverString;
     public PauseMenuScript pauseMenuScript;
 
+    private bool OneTimeGameOver = true;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -53,10 +55,14 @@ public class HealthBar : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log("Game Over");
-        gameOverString.text = "GAME OVER";
+        if (OneTimeGameOver)
+        {
+            OneTimeGameOver = false;
+            Debug.Log("Game Over");
+            gameOverString.text = "GAME OVER";
 
-        // Trigger the pause menu with game over state
-        pauseMenuScript.TriggerGameOver();
+            // Trigger the pause menu with game over state
+            pauseMenuScript.TriggerGameOver();
+        }
     }
 }

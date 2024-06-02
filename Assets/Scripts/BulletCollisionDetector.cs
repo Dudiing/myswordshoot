@@ -2,7 +2,7 @@ using UnityEngine;
 using Firebase;
 using Firebase.Database;
 using System;
-using TMPro; // Añadir esta línea
+using TMPro;
 
 public class BulletCollisionDetector : MonoBehaviour
 {
@@ -11,6 +11,8 @@ public class BulletCollisionDetector : MonoBehaviour
 
     public GameObject AddscorePopupPrefab; // Prefab del Canvas con el texto "+5"
     public GameObject RemovescorePopupPrefab;
+    private HealthBar healthBar; // Cambiar a privado
+
     private bool collisionHandled = false; // Añadir esta línea
 
     void Start()
@@ -21,16 +23,23 @@ public class BulletCollisionDetector : MonoBehaviour
         // Obtain the DisplayPlayerData component
         displayPlayerData = FindObjectOfType<DisplayPlayerData>();
 
+        // Find the HealthBar component in the scene
+        healthBar = FindObjectOfType<HealthBar>();
+
         // Verificar que el prefab esté asignado
         if (AddscorePopupPrefab == null)
         {
-            Debug.LogError("Score Popup Prefab is not assigned!");
+            Debug.LogError("Add Score Popup Prefab is not assigned!");
+        }
+        if (RemovescorePopupPrefab == null)
+        {
+            Debug.LogError("Remove Score Popup Prefab is not assigned!");
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collisionHandled) return; 
+        if (collisionHandled) return;
         collisionHandled = true;
 
         Debug.Log("CollisionEntered test");
@@ -70,7 +79,6 @@ public class BulletCollisionDetector : MonoBehaviour
             UpdatePlayerScore(-5);
             Destroy(collision.transform.parent.gameObject);
             GameObject popup = Instantiate(RemovescorePopupPrefab, collision.transform.position, Quaternion.identity);
-            // Asignar la cámara al Canvas del popup
             Canvas popupCanvas = popup.GetComponent<Canvas>();
             if (popupCanvas != null)
             {
@@ -79,6 +87,10 @@ public class BulletCollisionDetector : MonoBehaviour
 
             TMP_Text popupText = popup.GetComponentInChildren<TMP_Text>();
             popupText.text = "-5";
+            if (healthBar != null)
+            {
+                healthBar.TakeDamage();
+            }
             Destroy(popup, 1.0f); // Destruir el popup después de 1 segundo
         }
 
