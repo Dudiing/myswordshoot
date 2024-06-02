@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class BlockController : MonoBehaviour
 {
     public GameObject cutDirectionArrow;
+    private HealthBar healthBar;
 
     private Vector3[] cutDirectionRotations = new Vector3[]
     {
@@ -24,7 +26,8 @@ public class BlockController : MonoBehaviour
     {
         GetComponentInChildren<Light>().enabled = false;
     }
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         Destroy(gameObject);
     }
 
@@ -36,23 +39,40 @@ public class BlockController : MonoBehaviour
         {
             transform.eulerAngles = cutDirectionRotations[cutDirection];
         }
-        /*else
+    }
+
+    private IEnumerator FailureCheck()
+    {
+        yield return new WaitForSeconds(1.8f);
+
+        if (gameObject.activeSelf)
         {
-            // Hide the arrow for "Any" direction (cutDirection == 8)
-            cutDirectionArrow.SetActive(false);
-        }*/
+            OnFailedToBreakCube();
+        }
+    }
+
+    private void OnFailedToBreakCube()
+    {
+        if (healthBar != null)
+        {
+            healthBar.TakeDamage();
+        }
     }
 
     private void Update()
     {
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
-        if(transform.position.magnitude > 50)
+        if (transform.position.magnitude > 50)
         {
             Destroy(gameObject);
         }
     }
-    private void Awake() {
+
+    private void Awake()
+    {
+        healthBar = FindObjectOfType<HealthBar>();
+        StartCoroutine(FailureCheck());
         Destroy(gameObject, 5);
     }
 }

@@ -12,6 +12,7 @@ public class PauseMenuScript : MonoBehaviour
     public AudioSource music;
 
     private DatabaseReference reference;
+    private bool isGameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,8 @@ public class PauseMenuScript : MonoBehaviour
 
     public void DisplayUI()
     {
+        if (isGameOver) return;
+
         if (activePauseUI)
         {
             pauseMenuUI.SetActive(false);
@@ -116,5 +119,13 @@ public class PauseMenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+    public void TriggerGameOver()
+    {
+        isGameOver = true;
+        pauseMenuUI.SetActive(true);
+        activePauseUI = true;
+        Time.timeScale = 0;
+        music.Pause();
     }
 }
