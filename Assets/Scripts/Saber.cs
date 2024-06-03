@@ -22,8 +22,8 @@ public class Saber : MonoBehaviour
     private Vector3 up;
 
     [Header("Haptics")]
-    [Tooltip("Duration of the haptic feedback")] [SerializeField] private float hapticDuration = 0.1f;
-    [Tooltip("Intensity of the haptic feedback")] [SerializeField] private float hapticIntensity = 0.75f;
+    [Tooltip("Duration of the haptic feedback")][SerializeField] private float hapticDuration = 0.1f;
+    [Tooltip("Intensity of the haptic feedback")][SerializeField] private float hapticIntensity = 0.75f;
     private XRBaseController leftController;
 
     void Start()
@@ -53,8 +53,27 @@ public class Saber : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == sliceTag)
+        if (collision.gameObject.CompareTag(sliceTag))
+        {
+
+            BlockController blockController = collision.transform.parent.gameObject.GetComponent<BlockController>();
+
+            if (blockController != null)
+            {
+                Vector3 cutDirection = blockController.GetCutDirection();
+                if (Vector3.Dot(perpendicularVector, cutDirection) > 0.8f) // Adjust threshold as needed
+                {
+                    // Add score for correct cut direction
+                    ScoreManager.instance.AddScore(collision.transform.position, 10); // Adjust points as needed
+                }
+                else
+                {
+                    ScoreManager.instance.AddScore(collision.transform.position, 4);
+                }
+            }
             Slice(collision.collider, transform.position, perpendicularVector);
+            blockController.MarkAsCut();
+        }
     }
 
     public void Slice(Collider collider, Vector3 position, Vector3 direction)
@@ -97,7 +116,7 @@ public class Saber : MonoBehaviour
                     // Disable the original GameObject and make it stop moving
                     collider.gameObject.GetComponentInParent<BlockController>().enabled = false;
                     collider.gameObject.SetActive(false);
-                    Destroy(collider.gameObject, 2);
+                    Destroy(collider.transform.parent.gameObject, 2);
 
                     slashParticles.transform.position = frontObject.transform.position;
                     Vector3 directionXZ = new Vector3(up.x, 0, up.z);
