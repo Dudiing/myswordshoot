@@ -5,6 +5,7 @@ public class BlockController : MonoBehaviour
 {
     public GameObject cutDirectionArrow;
     private HealthBar healthBar;
+    private bool hasBeenCut = false; // Afegeix una variable per controlar si el cub ha estat tallat
 
     private Vector3[] cutDirectionRotations = new Vector3[]
     {
@@ -21,6 +22,7 @@ public class BlockController : MonoBehaviour
 
     private Vector3 moveDirection = Vector3.back;
     public float moveSpeed;
+    private int cutDirectionIndex;
 
     private void OnDisable()
     {
@@ -33,11 +35,11 @@ public class BlockController : MonoBehaviour
 
     public void Initialize(BeatSaberBlockSpawner.BeatSaberBlockData blockData)
     {
-        int cutDirection = blockData._cutDirection;
+        cutDirectionIndex = blockData._cutDirection;
 
-        if (cutDirection >= 0 && cutDirection < cutDirectionRotations.Length)
+        if (cutDirectionIndex >= 0 && cutDirectionIndex < cutDirectionRotations.Length)
         {
-            transform.eulerAngles = cutDirectionRotations[cutDirection];
+            transform.eulerAngles = cutDirectionRotations[cutDirectionIndex];
         }
     }
 
@@ -45,7 +47,7 @@ public class BlockController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.8f);
 
-        if (gameObject.activeSelf)
+        if (gameObject.activeSelf  && !hasBeenCut)
         {
             OnFailedToBreakCube();
         }
@@ -74,5 +76,20 @@ public class BlockController : MonoBehaviour
         healthBar = FindObjectOfType<HealthBar>();
         StartCoroutine(FailureCheck());
         Destroy(gameObject, 5);
+    }
+
+    public Vector3 GetCutDirection()
+    {
+        if (cutDirectionIndex >= 0 && cutDirectionIndex < cutDirectionRotations.Length)
+        {
+            return transform.TransformDirection(cutDirectionRotations[cutDirectionIndex]);
+        }
+        return Vector3.zero;
+    }
+
+    // Afegeix aquesta funció per indicar que el cub ha estat tallat
+    public void MarkAsCut()
+    {
+        hasBeenCut = true;
     }
 }
